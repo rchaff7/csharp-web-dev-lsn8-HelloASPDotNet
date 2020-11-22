@@ -6,38 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HelloASPDotNet.Controllers
 {
-    [Route("/helloworld")]
     public class HelloController : Controller
     {
         // GET: /<controller>/
         [HttpGet]
         public IActionResult Index()
         {
-            string html = 
-                "<form method='post' action='/helloworld/'>" +
-                "<input type='text' name='name' placeholder='enter name' required/>" +
-                "<select name='language'>" +
-                    "<option value='english'>English</option>" +
-                    "<option value='spanish'>Spanish</option>" +
-                    "<option value='french'>French</option>" +
-                    "<option value='german'>German</option>" +
-                    "<option value='italian'>Italian</option>" +
-                "</select>" +
-                "<input type='submit' value='Greet Me!' />" +
-                "</form>";
-
-            return Content(html, "text/html");
+            return View();
         }
 
         // GET: /<controller>/<action>/<optional parameter>
         // [HttpGet]
         // [Route("/helloworld/welcome/{name?}")]
 
-        [HttpGet("welcome/{name?}")]
-        [HttpPost]
+        //[HttpGet("welcome/{name?}")]
+        [HttpPost("hello")]
         public IActionResult Welcome(string name="World", string language="english")
         {
-            return Content("<h1>"+ CreateMessage(name, language) + "!</h1>", "text/html");
+            ViewBag.person = name;
+            ViewBag.language = language;
+            ViewBag.create = CreateMessage(name, language);
+            return View();
+            // return Content("<h1>"+ CreateMessage(name, language) + "!</h1>", "text/html");
         }
 
         public static string CreateMessage(string name, string language)
